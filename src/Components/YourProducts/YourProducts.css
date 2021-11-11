@@ -1,0 +1,36 @@
+.pending-status{
+ 
+    color: #D32F2F;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 17px;
+  
+}
+
+.approved-status {
+    color: #0288D1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 17px;
+}
+.canceled-status{
+    color: #ED6C02;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 17px;
+}
+
+.shipped-status{
+    color: #2E7D32;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-size: 17px;
+}

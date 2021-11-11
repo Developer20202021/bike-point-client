@@ -1,0 +1,10 @@
+.dashboard-header-logo{
+    font-size: 13px;
+}
+.dashboard-header{
+    display: flex;
+    
+    gap: 70vw;
+    align-items: center;
+
+}

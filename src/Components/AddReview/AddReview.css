@@ -1,0 +1,41 @@
+.addreview-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px;
+    margin-top: 60px;
+    border: 1px solid whitesmoke;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(245, 245, 245, 0.822) , 0 6px 20px 0 rgba(245, 245, 245, 0.801) ;
+    border-radius: 15px;
+
+}
+.text-field-1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+#icon-button-file{
+    display: none;
+}
+.upload-image{
+    border: 1px dashed;
+    padding: 30px;
+    width: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.addreview-box{
+    color: #3BB77E;
+    font-size: 20px;
+}
+.addreview-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}

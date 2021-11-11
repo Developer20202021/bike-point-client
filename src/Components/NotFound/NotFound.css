@@ -1,0 +1,13 @@
+.notFoundImage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:50px;
+}
+
+
+.button-notfound-home{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
