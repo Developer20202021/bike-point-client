@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Home.css';
 import {useHistory} from 'react-router-dom';
 import Product from '../Products/Product/Product'
@@ -17,6 +17,71 @@ const Home = () => {
     }
 
     const url = 'https://i.ibb.co/JstgrsQ/Purple-and-Pink-Organic-and-Handcrafted-Welcome-Message-Elementary-Back-to-School-Banner.png';
+
+
+
+
+
+    const [products, setProducts] = useState([]);
+
+    const [reviewers, setReviewers] = useState([]);
+
+    useEffect(()=>{
+
+        fetch('http://localhost:5000/public/home/product')
+        .then(res=>res.json())
+        .then(data=>{
+            setProducts(data)
+           
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+
+        fetch('http://localhost:5000/public/reviews')
+        .then(res=>res.json())
+        .then(data=>{
+            setReviewers(data);
+           
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+
+
+
+
+    },[])
+
+    const [getSubscriberEmail, setSubscriberEmail] = useState('')
+
+        const subscriberEmail = (e)=>{
+            setSubscriberEmail(e.target.value)
+                 }
+    const subscribe = ()=>{
+
+        fetch('http://localhost:5000/public/subscriber',{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({SubscriberEmail:getSubscriberEmail})
+        })
+        .then(res=>{
+            if (res.status===200) {
+                setSubscriberEmail(' ')
+            }
+            if (res.status===400) {
+                setSubscriberEmail(' ')
+            }
+            return res.json()
+        })
+        .then(data=>console.log(data))
+
+
+
+    }
+
 
 
 
@@ -47,16 +112,8 @@ const Home = () => {
                 <div className="product-box-home">
                     <h3>Popular Products</h3>
                     <div className="product-home-container">
-                       <Product></Product>
-                       <Product></Product>
-                       <Product></Product>
-                       <Product></Product>
-                       <Product></Product>
-                       <Product></Product>
-                       <Product></Product>
-                       <Product></Product>
-                       <Product></Product>
-                       <Product></Product>
+                    {products.length>0?products.map(product=><Product value={product}></Product>):null}
+                      
 
 
 
@@ -88,8 +145,12 @@ const Home = () => {
 
                     <div className="subscribe-button">
 
-                        <input className='subscribe-input' type="text"  />
-                    <Button style={{
+                        <input
+                        value={getSubscriberEmail}
+                         onChange={subscriberEmail} className='subscribe-input' type="text"  />
+                    <Button
+                    onClick={subscribe} 
+                     style={{
                         backgroundColor:'#3BB77E',
                        
                         width:'200px',
@@ -111,11 +172,13 @@ const Home = () => {
 
                 
                 <div className="client-review-home-container">
-                <ClientReview></ClientReview>
-                <ClientReview></ClientReview>
-                <ClientReview></ClientReview>
-                <ClientReview></ClientReview>
-                <ClientReview></ClientReview>
+
+                    {reviewers.length>0?reviewers.map(reviewer=> <ClientReview value={reviewer}></ClientReview>):null}
+
+
+
+
+                
                 </div>
                 </div>
 

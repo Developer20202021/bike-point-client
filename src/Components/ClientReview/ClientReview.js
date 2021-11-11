@@ -3,7 +3,16 @@ import './ClientReview.css';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 
-const ClientReview = () => {
+const ClientReview = (props) => {
+
+    const {value} = props;
+  
+
+    const {name,rating, reviewerDescription,reviewerImage,_id} = value;
+
+
+
+
     return (
         <div>
             <div className="client-review-box">
@@ -12,15 +21,15 @@ const ClientReview = () => {
 
                 <div className="client-review-info">
                     <div className="client-image">
-                        <img src="https://image.freepik.com/free-photo/pretty-lady-posing-while-touching-hair-red-blouse-looking-cheerful-front-view_176474-106331.jpg" alt="" />
+                        <img src={reviewerImage} alt="" />
                     </div>
                     <div className="all-info-client">
                         <div className="client-rating">
-                        <Rating name="read-only" value='5' readOnly />
+                        <Rating name="read-only" value={rating} readOnly />
 
                         </div>
                         <div className="client-name">
-                            Name Surname 
+                            {name}
                         </div>
                     </div>
 
@@ -30,7 +39,7 @@ const ClientReview = () => {
 
 
 
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque earum quis ipsam laudantium rem, nemo eligendi architecto beatae nesciunt ad, minus voluptatem accusantium incidunt maxime!</p>
+                    <p>{reviewerDescription?.slice(0,200)}</p>
 
 
 

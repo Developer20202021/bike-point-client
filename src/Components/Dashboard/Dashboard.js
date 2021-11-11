@@ -35,6 +35,8 @@ import AdminList from '../AdminList/AdminList';
 import PlaceOrder from '../PlaceOrder/PlaceOrder';
 import AddReview from '../AddReview/AddReview';
 import AddProduct from '../AddProduct/AddProduct';
+import AllProducts from '../AllProducts/AllProducts';
+import ListIcon from '@mui/icons-material/List';
 
 const drawerWidth = 240;
 
@@ -212,6 +214,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
            {pathname==='/dashboard/your-account'? <Typography variant="h6" noWrap component="div">
            Your Account
           </Typography>:null}
+           {pathname==='/dashboard/all-products'? <Typography variant="h6" noWrap component="div">
+           All Products 
+          </Typography>:null}
 
           
          
@@ -248,6 +253,19 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <ListItemText style={{
         color:'white'
       }} primary='Dashboard' />
+            </ListItem>
+
+
+            <ListItem onClick={()=>goLocation('/all-products')} button>
+              <ListItemIcon>
+                <ListIcon style={{
+        color:'white'
+      }}/>
+              
+              </ListItemIcon>
+              <ListItemText style={{
+        color:'white'
+      }} primary='All Products' />
             </ListItem>
 
 
@@ -412,6 +430,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             </Route>
 
             <Route path={`${path}/track-your-orders`}>
+
+            </Route >
+
+            <Route path={`${path}/all-products`}>
+              <AllProducts></AllProducts>
 
             </Route >
 

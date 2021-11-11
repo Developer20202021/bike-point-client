@@ -1,9 +1,102 @@
 import { Button, Grid, TextField } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import './PlaceOrder.css'
 
 const PlaceOrder = () => {
+
+    const {id} = useParams();
+    const [getProductInfo, setProductInfo] = useState({});
+    const [getProductPrice, setProductPrice] = useState(0)
+    console.log(getProductInfo);
+
+
+    const {productImage,productName} = getProductInfo;
+
+    useEffect(()=>{
+
+        fetch(`http://localhost:5000/public/product/${id}`).then(res=>res.json())
+        .then(data=>{
+            setProductInfo(data[0])
+            setProductPrice(data[0]?.productPrice)
+            // console.log(data[0])
+        })
+
+
+
+
+
+
+    },[])
+
+
+
+    // const price = 122;
+
+const [productNumber, setProductNumber] = useState(1);
+
+const [clientInfo, setClientInfo] = useState({});
+
+    const ProductCount = (e)=>{
+
+            const ProductValue = parseInt( e.target.value);
+            console.log(typeof ProductValue);
+            setProductNumber(ProductValue);
+            setProductPrice(ProductValue*parseInt(getProductPrice))
+    }
+
+
+    // console.log(getProductPrice);
+
+
+    const getClientinfo =(e)=>{
+
+        const name = e.target.name ;
+        const value = e.target.value;
+
+        setClientInfo({...clientInfo,[name]:value})
+
+
+    }
+
+    console.log(clientInfo);
+
+
+
+    const orderNow = ()=>{
+
+        clientInfo.productCount = productNumber;
+
+        clientInfo.productImage= productImage;
+        clientInfo.productName= productName;
+        clientInfo.productPrice = getProductPrice;
+
+        console.log(clientInfo);
+
+
+        fetch('http://localhost:5000/public/placeorder',{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(clientInfo)
+        })
+        .then(res=>res.json())
+        .then(data=>console.log(data))
+        .catch(err=>{
+            console.log(err);
+        })
+
+    }
+
+
+
+
+
+
+
+
     return (
         <div>
 
@@ -16,23 +109,25 @@ const PlaceOrder = () => {
                     <div className="product-info">
 
                         <div className="product-image-container">
-                            <img src="https://image.freepik.com/free-vector/realistic-ad-with-product-landing-page_52683-70870.jpg" alt="" />
+                            <img src={getProductInfo?.productImage} alt="" />
 
                         </div>
 
                         <div className="product-des">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo cumque, obcaecati commodi tenetur nam quidem quia perferendis architecto et? Neque, dolor in. Deserunt magni enim tenetur praesentium quod? Cum, assumenda!</p>
+                            <p>{getProductInfo?.productDescription}</p>
                             <div className="product-count">
                           <div className="count-number-input">
                           <TextField
                       type='number'
+                      onChange={ProductCount}
+
                       
                       style={{
                           width:'100px'
                       }}  id="standard-basic" variant="outlined" label="Product Count" />
                           </div>
                           <div className="update-product-price"><span className='price'> Price: 
-                              $122</span>
+                              ${getProductPrice}</span>
                           </div>
                             </div>
                         </div>
@@ -54,49 +149,70 @@ const PlaceOrder = () => {
 
                     <Grid container spacing={7}>
                       <Grid item xs={12} md={4}>
-                      <TextField style={{
+                      <TextField
+                      onChange={getClientinfo}
+                      name='fullname'
+                      style={{
                           width:'70%'
                       }}  id="standard-basic" variant="outlined"label="Full Name" />
                       </Grid>
 
                       <Grid item xs={12} md={4}>
-                      <TextField style={{
+                      <TextField 
+                      name='email'
+                       onChange={getClientinfo}
+                      style={{
                           width:'70%'
                       }}  id="standard-basic" variant="outlined"label="Email" />
                       </Grid>
 
 
                       <Grid item xs={12} md={4}>
-                      <TextField style={{
+                      <TextField
+                       onChange={getClientinfo}
+                       name='phoneNumber'
+                       style={{
                           width:'70%'
                       }} id="standard-basic" variant="outlined" label="Phone Number"/>
                       </Grid>
 
 
                       <Grid item xs={12} md={4}>
-                      <TextField  style={{
-                          width:'70%'
-                      }} id="standard-basic" variant="outlined" label="Price"/>
+                      <TextField
+                         onChange={getClientinfo}
+                      value={getProductPrice}
+                      disabled 
+                      style={{
+                          width:'70%',
+                          color:'black'
+                      }} id="standard-basic" variant="outlined" label="Total Price"/>
                       </Grid>
 
                       <Grid item xs={12} md={4}>
                       <TextField
                       type='number'
-                      
+                      onChange={getClientinfo}
+                      value={productNumber}
+                     disabled
+                     label='Count'
                       style={{
-                          width:'70%'
-                      }}  id="standard-basic" variant="outlined" label="Product Count" />
+                          width:'70%',
+                          color:'black'
+                      }}  id="standard-basic" variant="outlined"  />
                       </Grid>
                       <Grid item xs={12} md={4}>
                       <TextField
-                  
+                        onChange={getClientinfo}
+                      name ='address'
                       multiline
                       style={{
                           width:'70%'
                       }}  id="standard-basic" variant="outlined" label="Address" />
                       </Grid>
                       <Grid  item xs={12} md={12}>
-                    <Button style={{
+                    <Button
+                    onClick={orderNow}
+                     style={{
                         backgroundColor:'#3BB77E'
                         ,
                         width:'200px'
