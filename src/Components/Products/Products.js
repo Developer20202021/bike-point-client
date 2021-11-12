@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Products.css'
 import Product from './Product/Product';
 import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 
 const Products = () => {
 
@@ -36,6 +37,8 @@ const Products = () => {
 
     return (
         <div>
+
+            <Header></Header>
 
             <div className="all-product-box">
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Register.css';
 import {NavLink} from 'react-router-dom';
 import Box from '@mui/material/Box';
@@ -7,8 +7,18 @@ import { Button, IconButton, InputAdornment, InputLabel, OutlinedInput, TextFiel
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import { useHistory } from "react-router-dom";
+import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
+import { getAuth, updateProfile,createUserWithEmailAndPassword } from '@firebase/auth';
 
 const Register = () => {
+  const history = useHistory();
+  const auth = getAuth();
+      const {newUser,registerNewUser, errorMsg,setNewUser,setErrorMsg } = UseAuthFirebase();
+
+// console.log(registerNewUser);
 
     const [values, setValues] = React.useState({   password:'',
 
@@ -57,9 +67,97 @@ const Register = () => {
 
 
 
+      const [userInfo, setUserInfo] = useState({userName:" ", email:" "})
+
+      const getUserInfo = (e)=>{
+        const name = e.target.name;
+        const fieldValue = e.target.value;
+
+        setUserInfo({...userInfo, [name]:fieldValue});
+
+      }
+      // console.log(userInfo);
+
+
+
+  const  register =   ()=>{
+
+        userInfo.password = values.password;
+        // console.log(userInfo);
+      
+        
+      createUserWithEmailAndPassword (auth,userInfo.email, userInfo.password, userInfo.userName)
+        .then((result)=>{
+            
+          const user = result.user;
+          console.log(user);
+        
+          setNewUser(user);
+
+          const userAllInfo ={
+              email:user.email,
+              fullName:userInfo.userName,
+              
+          }
+
+          fetch('http://localhost:5000/public/new-user',{
+              method:"POST",
+              headers:{
+                  "Content-Type":"application/json"
+              },
+              body:JSON.stringify(userAllInfo)
+          })
+          .then(res=>res.json())
+          .then(data=>console.log(data))
+          .catch(err=>{
+              console.log(err);
+          })
+          
+          
+        
+         
+        
+        
+         
+          if (user) {
+              updateProfile(auth.currentUser,{
+                  displayName:userInfo.userName
+              })
+              .then(()=>{
+                  console.log("Profile Update SuccessFull");
+                  history.push('/login')
+                
+                 
+              })
+              .catch(err=>{
+                  const error = err.message;
+                  setErrorMsg(error);
+                  console.log(err);
+              })
+  
+          }
+         
+         
+        
+      })
+      .catch(err=>{
+          console.log(err);
+          const error = err.message;
+                  setErrorMsg(error);
+      })
+
+      }
+
+
+     
+
+
+
+
 
     return (
         <div>
+          <Header></Header>
             <div className='registerPageContainer'>
                 <Box  sx={{
                   
@@ -77,7 +175,10 @@ const Register = () => {
             </Grid>
 
         <Grid item xs={12} md={12}>
-      <TextField style={{
+      <TextField
+      onChange={getUserInfo} 
+      name='userName'
+      style={{
           width:'420px',
       }} id="outlined-basic" label="Username"
       placeholder='Username'
@@ -85,6 +186,8 @@ const Register = () => {
          </Grid>
          <Grid item xs={12} md={12}>
       <TextField
+      name='email'
+      onChange={getUserInfo}
      style={{
         width:'420px',
     }} id="outlined-basic" label="Email"
@@ -145,11 +248,21 @@ const Register = () => {
         </FormControl>
         </Grid>
         <Grid item xs={12} md={12}>
-        <Button style={{
+
+          {values.password === confirmValues.confirmPassword? <Button
+        onClick={register}
+         style={{
             backgroundColor:'#3BB77E',
             width:'200px',
             height:'50px'
-        }} variant="contained">Submit & Register</Button>
+        }} variant="contained">Submit & Register</Button>: <Button
+       disabled
+         style={{
+            backgroundColor:'#3BB77E',
+            width:'200px',
+            height:'50px'
+        }} variant="contained">Submit & Register</Button>}
+       
        
        </Grid>
      
@@ -165,7 +278,7 @@ const Register = () => {
 
 
 
-
+        <Footer></Footer>
 
 
         </div>

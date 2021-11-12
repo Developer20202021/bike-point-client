@@ -71,6 +71,9 @@ const [clientInfo, setClientInfo] = useState({});
         clientInfo.productImage= productImage;
         clientInfo.productName= productName;
         clientInfo.productPrice = getProductPrice;
+        const date = new Date();
+            const month = date.toDateString();
+        clientInfo.month = month.split(' ')[1];
 
         console.log(clientInfo);
 

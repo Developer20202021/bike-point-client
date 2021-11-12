@@ -1,0 +1,80 @@
+.item-1{
+    display: flex;   
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #FF851B;
+    color: white;
+    border-radius: 10px;
+}
+.item-2{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    background-color: #5867DD;
+    color: white;
+    border-radius: 10px;
+}
+.item-3{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    background-color: #00A65A;
+    color: white;
+    border-radius: 10px;
+}
+.item-4{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    background-color: #04C1C4;
+    color: white;
+    border-radius: 10px;
+}
+
+.item-2-google{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    background-color: #DC4A38;
+    color: white;
+    border-radius: 10px;
+}
+.item-3-facebook{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    background-color: #3B5998;
+    color: white;
+    border-radius: 10px;
+}
+.item-4-twitter{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    background-color: #28AAE1;
+    color: white;
+    border-radius: 10px;
+}
+
+.d-number{
+    font-size: 30px;
+}
+
+.title-type-d{
+    font-size: 15px;
+}
+
+.icon-d{
+    font-size: 29px;
+}
+
+.analysis{
+    color: #3BB77E;
+}

@@ -1,0 +1,76 @@
+.track-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px;
+    margin-top: 10px;
+    border: 1px solid whitesmoke;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(245, 245, 245, 0.822) , 0 6px 20px 0 rgba(245, 245, 245, 0.801) ;
+    border-radius: 15px;
+    color: #3BB77E;
+    height: 300px;
+}
+
+.track-button{
+    margin-top: 20px;
+}
+
+.track-product-info{
+    display: flex;
+    justify-content:flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px;
+    margin-top: 10px;
+    border: 1px solid whitesmoke;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(245, 245, 245, 0.822) , 0 6px 20px 0 rgba(245, 245, 245, 0.801) ;
+    border-radius: 15px;
+   
+    height: 300px;
+
+}
+
+.t-title{
+    color: #3BB77E;
+    font-size: 18px;
+    font-weight: 500;
+    margin-right: 10px;
+}
+
+.track-title h2{
+    margin-bottom: -8px;
+}
+
+.track-product-info .id{
+  
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.status-Shipped{
+    color: 
+    #ff3d00;
+}
+
+
+.status-Canceled{
+    color: 
+    #ff3d00;
+}
+.status-approved{
+ color: 
+    #2979ff;
+ 
+    width: 100px;
+    height: 200px;
+}
+
+.status-Pending{
+    color: 
+    #1de9b6;
+}

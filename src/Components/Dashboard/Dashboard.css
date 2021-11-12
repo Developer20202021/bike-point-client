@@ -8,3 +8,80 @@
     align-items: center;
 
 }
+
+.user-logout-d{
+    margin-right: 100px;
+}
+.user-logout-d img{
+    border: 2px solid;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+
+@media only screen and (min-width:1100px) {
+    .toogleitem{
+        position: absolute;
+        top: 50px;
+        left: 79%;
+        width: 300px;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 0px;
+        padding: 40px;
+        margin: 10px;
+        border: 1px solid whitesmoke;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(245, 245, 245, 0.822) , 0 6px 20px 0 rgba(245, 245, 245, 0.801) ;
+        border-radius: 15px;
+    
+    }  
+}
+@media only screen and (max-width:700px) {
+    .user-logout-d{
+        display: none;
+    }
+}
+
+
+@media only screen and (max-width:1100px) and (min-width:700px) {
+    .toogleitem{
+        position: absolute;
+        top: 55px;
+        left: 60%;
+        width: 300px;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 0px;
+        padding: 40px;
+        
+        border: 1px solid whitesmoke;
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(245, 245, 245, 0.822) , 0 6px 20px 0 rgba(245, 245, 245, 0.801) ;
+        border-radius: 15px;
+    
+    }  
+}
+
+
+
+
+.active-icon{
+    margin-left: -20px;
+}
+
+.toogle-button{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    margin-bottom: 30px;
+    cursor: pointer;
+    color: #3BB77E;
+}

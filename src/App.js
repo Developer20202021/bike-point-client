@@ -8,9 +8,11 @@ import LogIn from './Components/LogIn/LogIn';
 import Register from './Components/Register/Register';
 import Products from './Components/Products/Products';
 import Footer from './Components/Footer/Footer';
+import FirebaseAuthContext from './Components/CustomHook/FirebaseAuthContext';
 
 function App() {
   return (
+    <FirebaseAuthContext>
  <BrowserRouter>
     <Switch>
 
@@ -70,6 +72,7 @@ function App() {
  
  
  </BrowserRouter>
+ </FirebaseAuthContext>
 
   );
 }

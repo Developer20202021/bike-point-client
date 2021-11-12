@@ -37,6 +37,14 @@ import AddReview from '../AddReview/AddReview';
 import AddProduct from '../AddProduct/AddProduct';
 import AllProducts from '../AllProducts/AllProducts';
 import ListIcon from '@mui/icons-material/List';
+import DashboardFrontPage from './DashboardFrontPage/DashboardFrontPage';
+import TrackOrder from '../TrackOrder/TrackOrder';
+import { Grid } from '@mui/material';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
+import { getAuth, createUserWithEmailAndPassword , signInWithEmailAndPassword,onAuthStateChanged, signOut, GoogleAuthProvider,signInWithPopup,GithubAuthProvider, updateProfile } from "firebase/auth";
 
 const drawerWidth = 240;
 
@@ -121,6 +129,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
  function Dashboard() {
+
+  
+const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase();
+
+
+
   const theme = useTheme();
   theme.palette.background.paper='rgb(47, 55, 66)'
   console.log(theme.palette);
@@ -153,7 +167,61 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 
+  const [toogle, setToogle] = React.useState(false);
 
+  const toogling = ()=>{
+    
+    setToogle(!toogle);
+
+  }
+
+
+  const [user, setUser] = React.useState()
+
+
+
+  React.useEffect(()=>{
+
+
+    fetch(`http://localhost:5000/public/users?email=${newUser?.email}`)
+    .then(res=>res.json())
+    .then(data=>{
+      setUser(data[0])
+      console.log(data[0])
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+    console.log(user?.role);
+    console.log(newUser?.photoURL);
+  
+
+
+
+
+  },[newUser])
+
+  const auth = getAuth();
+
+
+  const logOut = ()=>{
+    signOut(auth)
+    .then(()=>{
+       
+     
+        console.log("Log out Successfull");
+        setNewUser('');
+        history.push("/login")
+       
+    })
+    .catch(err=>{
+        const error = err.message;
+                    setErrorMsg(error);
+        console.log(err);
+    })
+
+
+}
 
 
 
@@ -163,10 +231,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', position:"relative" }}>
       <CssBaseline />
       <AppBar style={{
-          backgroundColor:'#5867DD'
+          backgroundColor:'#5867DD',
+          display: 'flex',
+          justifyContent:"space-between",
+          alignItems:"center",
+          flexDirection:"row"
       }} position="fixed" open={open}>
         <Toolbar>
             
@@ -182,8 +254,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
           >
             <MenuIcon />
           </IconButton>
-          <div className='dashboard-header'>
-          <div>
+        
            {pathname==='/dashboard/track-your-orders'? <Typography variant="h6" noWrap component="div">
            Track Your Order
           </Typography>:null}
@@ -220,13 +291,49 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
           
          
-          </div>
-          <div className="log-out">
-            Log Out
-          </div>
-          </div>
+          
+
+         
+         
         </Toolbar>
+        <div className="user-logout-d"> 
+        {newUser?.photoURL?<img
+        onClick={toogling}
+        className ='userImage' src={newUser?.photoURL} alt="" width="50px" height='50px'/>:<img
+        onClick={toogling}
+        className ='userImage' src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" width="50px" height='50px'/>} </div>
+        {toogle? <div className="toogleitem">
+          <div className="image-user">
+          {newUser?.photoURL?<img
+        onClick={toogling}
+        className ='userImage' src={newUser?.photoURL} alt="" width="50px" height='50px'/>:<img
+        onClick={toogling}
+        className ='userImage' src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" width="50px" height='50px'/>}
+            <span className="active-icon"><FiberManualRecordIcon style={{
+              color:"#00F100"
+            }}></FiberManualRecordIcon></span>
+          </div>
+          <div className="user-name">
+            <h2>{newUser?.displayName}</h2>
+          </div>
+        
+          
+          <div  onClick={()=>goLocation('/my-orders')} className="toogle-button">
+          <ShoppingCartIcon/> My Orders
+          </div>
+          <div onClick={()=>goLocation('/your-account')} className="toogle-button">
+          <SettingsIcon/> Settings
+          </div>
+          <div onClick={logOut} className="toogle-button">
+          <LogoutIcon/> Log Out
+          </div>
+         
+        
+       
+      </div>:null}
+      
       </AppBar>
+      
       <Drawer  variant="permanent" open={open}>
         <DrawerHeader style={{
           backgroundColor:'#5867DD'
@@ -243,8 +350,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         </DrawerHeader>
         <Divider />
         <List>
-          
-            <ListItem onClick={()=>goLocation('')} button>
+          {user?.role==="admin"&& newUser?.email?<ListItem onClick={()=>goLocation('')} button>
               <ListItemIcon>
               <DashboardIcon style={{
         color:'white'
@@ -253,10 +359,13 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <ListItemText style={{
         color:'white'
       }} primary='Dashboard' />
-            </ListItem>
+            </ListItem>:null}
 
 
-            <ListItem onClick={()=>goLocation('/all-products')} button>
+          
+            
+
+            {user?.role==="admin"&& newUser?.email? <ListItem onClick={()=>goLocation('/all-products')} button>
               <ListItemIcon>
                 <ListIcon style={{
         color:'white'
@@ -266,7 +375,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <ListItemText style={{
         color:'white'
       }} primary='All Products' />
-            </ListItem>
+            </ListItem>:null}
+           
 
 
             <ListItem onClick={()=>goLocation('/add-reviews')} button>
@@ -279,7 +389,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         color:'white'
       }} primary='Add Reviews' />
             </ListItem>
-            <ListItem onClick={()=>goLocation('/add-products')} button>
+
+
+            {user?.role==="admin"&& newUser?.email?<ListItem onClick={()=>goLocation('/add-products')} button>
               <ListItemIcon>
                   <ReviewsIcon style={{
         color:'white'
@@ -289,11 +401,11 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <ListItemText style={{
         color:'white'
       }} primary='Add Products' />
-            </ListItem>
+            </ListItem>:null}
+            
 
 
-
-
+            {user?.role==="admin"&& newUser?.email?
             <ListItem onClick={()=>goLocation('/add-new-admin')} button>
               <ListItemIcon>
                   <AddIcon style={{
@@ -304,7 +416,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <ListItemText style={{
         color:'white'
       }} primary='Add Admin' />
-            </ListItem>
+            </ListItem>:null}
+
 
 
 
@@ -321,8 +434,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             </ListItem>
 
 
-
-            <ListItem onClick={()=>goLocation('/manage-orders')} button>
+            {user?.role==="admin"&& newUser?.email? <ListItem onClick={()=>goLocation('/manage-orders')} button>
               <ListItemIcon>
               <ManageAccountsIcon style={{
         color:'white'
@@ -331,7 +443,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <ListItemText style={{
         color:'white'
       }} primary='Manage Orders' />
-            </ListItem>
+            </ListItem>:null}
+           
 
 
 
@@ -364,8 +477,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 
 
-
-            <ListItem onClick={()=>goLocation('/admins-list')} button>
+            {user?.role==="admin" && newUser?.email?<ListItem onClick={()=>goLocation('/admins-list')} button>
               <ListItemIcon>
               <AdminPanelSettingsIcon style={{
         color:'white'
@@ -374,7 +486,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <ListItemText style={{
         color:'white'
       }} primary='Admins' />
-            </ListItem>
+            </ListItem>:null}
+            
 
             
             <ListItem onClick={()=>goLocation('/your-account')} button>
@@ -387,6 +500,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
               <ListItemText style={{
         color:'white'
       }} primary='Account Details' />
+            </ListItem>
+            
+            <ListItem onClick={logOut} button>
+              <ListItemIcon>
+              <LogoutIcon  style={{
+        color:'white'
+      }}/>
+              
+              </ListItemIcon>
+              <ListItemText style={{
+        color:'white'
+      }} primary='Log Out' />
             </ListItem>
        
         </List>
@@ -422,6 +547,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                 <YourProducts></YourProducts>
 
             </Route>
+            
 
 
             <Route path={`${path}/manage-orders`}>
@@ -429,8 +555,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
             </Route>
 
-            <Route path={`${path}/track-your-orders`}>
 
+
+            <Route path={`${path}/track-your-orders`}>
+              <TrackOrder></TrackOrder>
             </Route >
 
             <Route path={`${path}/all-products`}>
@@ -459,6 +587,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
             </Route>
 
             <Route exact path='/dashboard'>
+              <DashboardFrontPage></DashboardFrontPage>
 
 
             </Route>
@@ -476,6 +605,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
        
       </Box>
+    
     </Box>
   );
 }

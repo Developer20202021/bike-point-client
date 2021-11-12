@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LogIn.css';
+import {useHistory} from "react-router-dom";
 import {NavLink} from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Button, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
+import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
+import { getAuth, signInWithPopup,GithubAuthProvider,GoogleAuthProvider } from '@firebase/auth';
+
+
+
 
 const LogIn = () => {
+  const auth = getAuth();
+  const githubProvider = new GithubAuthProvider();
+  const googleProvider = new GoogleAuthProvider();
+
+  const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase();
+  const history = useHistory();
 
 
     const [values, setValues] = React.useState({     
@@ -32,13 +46,89 @@ const LogIn = () => {
 
 
       const googleLogin = ()=>{
+        signInWithPopup(auth, googleProvider )
+        .then(result=>{
+            
+            const user = result.user;
+            setNewUser(user);
+            console.log(user);
+            if (user) {
+              history.push("/dashboard")
+            }
+        })
+        .catch(err=>{
+            const error = err.message;
+                setErrorMsg(error);
+            console.log(err);
+        })
+
 
       }
 
       const githubLogIn = ()=>{
+        signInWithPopup(auth, githubProvider)
+        .then(result=>{
+            const user = result.user;
+          
+            setNewUser(user);
+            console.log(user);
+            if (user) {
+              history.push("/dashboard")
+            }
+        })
+        .catch(err=>{
+            const error = err.message;
+            setErrorMsg(error);
+                console.log(err);
+        }
+        )
+      }
+
+
+
+      
+      const [email, setEmail] = useState('')
+
+      const emailValue = (e)=>{
+        const emailInfo = e.target.value;
+        setEmail(emailInfo);
 
       }
-      
+
+
+
+
+      const logIn = async ()=>{
+
+        const getUserAllInfo = await logInUser(email, values.password);
+        console.log(getUserAllInfo);
+    
+    
+
+        
+        getUserAllInfo(auth, email,values.password).then(result=>{
+
+          const user = result.user;
+          console.log(user);
+          setNewUser(user);
+          
+          if (user) {
+            history.push("/dashboard")
+          }
+     
+          
+
+          
+
+      })
+      .catch(err=>{
+          const error = err.message;
+              setErrorMsg(error);
+          console.log(err);
+      })
+
+      }
+
 
 
 
@@ -55,6 +145,7 @@ const LogIn = () => {
 
     return (
    <div>
+     <Header></Header>
 
        <div className="log-in-box">
 
@@ -76,7 +167,9 @@ const LogIn = () => {
 
 
             <div className='input-field'>
-            <TextField style={{
+            <TextField 
+            onChange={emailValue}
+            style={{
                 width:'100%'
             }} id="outlined-basic" label="Email" 
             placeholder='Email'
@@ -108,7 +201,10 @@ const LogIn = () => {
         </FormControl>
           </div>
           <div className='log-in-button'>
-          <Button style={{
+          <Button
+          onClick={logIn}
+          
+          style={{
               backgroundColor:'#3BB77E',
               width:'100%',
               height:'40px',
@@ -157,6 +253,9 @@ const LogIn = () => {
 
        </div>
 
+
+     
+    <Footer></Footer>
 
 
 

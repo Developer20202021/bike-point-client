@@ -8,6 +8,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Button, Slider } from '@mui/material';
 import { height } from '@mui/system';
 import HomeSlider from './Slider/Slider';
+import Header from '../Header/Header';
 
 const Home = () => {
     const history = useHistory();
@@ -87,7 +88,8 @@ const Home = () => {
 
 
     return (
-        <div>
+        <div className='header-main'>
+            <Header></Header>
 
             <div className="home-box">
             <div className="home-conatiner">

@@ -28,8 +28,43 @@ export default function AdminList() {
   const [productId , setProductId] = React.useState(0)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [admin, setAdmin] = React.useState([]);
+  const [deleteitem, setdeleteItem] = React.useState([]);
 
 
+
+
+React.useEffect(()=>{
+
+  fetch("http://localhost:5000/admin/get-all-admin")
+            .then(res=>res.json())
+            .then(data=>{
+              setAdmin(data)
+                console.log(data);
+            }).catch(err=>{
+                console.log(err);
+            })
+
+
+
+},[deleteitem])
+
+
+const deleteAdmin= ()=>{
+
+  fetch(`http://localhost:5000/admin/admin-delete/${productId}`,{
+    method:"DELETE"
+  })
+            .then(res=>res.json())
+            .then(data=>{
+              setdeleteItem(data)
+                console.log(data);
+            }).catch(err=>{
+                console.log(err);
+            })
+
+
+}
 
 
 
@@ -46,7 +81,7 @@ export default function AdminList() {
   
        return(
          <img src={params.row.image}
-         alt='data' width='50px' height='50px'/>
+         alt='admin' width='50px' height='50px'/>
        )
      }
    },
@@ -76,7 +111,7 @@ export default function AdminList() {
   width: 170,
   disableClickEventBubbling:true,
   renderCell: (params)=>{
-  console.log(params.id);
+
   const deleteItem = (id)=>{
     setProductId(id)
     handleOpen()
@@ -86,7 +121,7 @@ export default function AdminList() {
     <Button style={{
         width:'70px',
         fontSize:'11px'
-    }} color='error' onClick={()=>deleteItem(params.id)} variant="contained">Delete</Button>
+    }} color='error' onClick={()=>deleteItem(params?.row?._id)} variant="contained">Delete</Button>
   )
   }
   },
@@ -100,18 +135,7 @@ export default function AdminList() {
   
   ];
   
-  const rows = [
-    { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35, productImage:'https://image.freepik.com/free-vector/white-product-podium-with-green-tropical-palm-leaves-golden-round-arch-green-wall_87521-3023.jpg', status:'Pending' },
-    { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 , productImage:'https://image.freepik.com/free-vector/product-podium-with-green-paper-cut-tropical-monstera-palm-leaf-green-background-modern-mockup-template-advertising-vector-illustration-eps10_87521-3314.jpg',
-  status:'Approved'},
-    { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-    { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null, status:'Canceled' },
-    { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-    { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-    { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-    { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65, status:'Shipped',  },
-  ];
+  const rows = admin;
 
 
     const [inputValueAdd, setInputValueAdd] = React.useState('');
@@ -175,7 +199,9 @@ export default function AdminList() {
          width:'100%'
        }} id="outlined-basic" label="Admin ID" variant="outlined" />
 
-        {inputValueAdd===String(productId)?<Button style={{
+        {inputValueAdd===String(productId)?<Button
+        onClick={deleteAdmin}
+         style={{
          width:'100%',
          marginTop:'20px',
          backgroundColor:'#3BB77E'
