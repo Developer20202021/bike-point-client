@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './LogIn.css';
-import {useHistory} from "react-router-dom";
+import {useHistory,useLocation} from "react-router-dom";
 import {NavLink} from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
@@ -9,18 +9,21 @@ import { Button, IconButton, InputAdornment, InputLabel, OutlinedInput, TextFiel
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
-import { getAuth, signInWithPopup,GithubAuthProvider,GoogleAuthProvider } from '@firebase/auth';
+import { getAuth, signInWithPopup,GithubAuthProvider,GoogleAuthProvider,onAuthStateChanged } from '@firebase/auth';
 
 
 
 
 const LogIn = () => {
   const auth = getAuth();
+  const location = useLocation();
+  // console.log("Log in location",location?.state?.from?.pathname);
   const githubProvider = new GithubAuthProvider();
   const googleProvider = new GoogleAuthProvider();
 
-  const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase();
+  const {newUser,logInUser,setNewUser,setErrorMsg,isLoading,setIsLoading, errorMsg, } = UseAuthFirebase();
   const history = useHistory();
+ 
 
 
     const [values, setValues] = React.useState({     
@@ -46,14 +49,42 @@ const LogIn = () => {
 
 
       const googleLogin = ()=>{
+        setIsLoading(true)
         signInWithPopup(auth, googleProvider )
         .then(result=>{
             
             const user = result.user;
             setNewUser(user);
             console.log(user);
+
+          const userAllInfo = {
+            email:user?.email,
+            fullName:user?.displayName
+          }
+
+            
+          fetch('https://immense-fjord-66300.herokuapp.com/public/add-google-new-user',{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(userAllInfo)
+        })
+        .then(res=>res.json())
+        .then(data=>console.log(data))
+        .catch(err=>{
+            console.log(err);
+        })
+
+
+
+
+
+
+
+
             if (user) {
-              history.push("/dashboard")
+              history.push(location?.state?.from?.pathname||"/dashboard")
             }
         })
         .catch(err=>{
@@ -61,19 +92,52 @@ const LogIn = () => {
                 setErrorMsg(error);
             console.log(err);
         })
+        .finally(()=>{
+          setIsLoading(false)
+        })
+
+        
+      
 
 
       }
 
       const githubLogIn = ()=>{
+        
+        setIsLoading(false);
         signInWithPopup(auth, githubProvider)
         .then(result=>{
             const user = result.user;
           
             setNewUser(user);
             console.log(user);
+
+            const userAllInfo = {
+              email:user?.email,
+              fullName:user?.displayName
+            }
+
+                 
+          fetch('https://immense-fjord-66300.herokuapp.com/public/add-google-new-user',{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify(userAllInfo)
+        })
+        .then(res=>res.json())
+        .then(data=>console.log(data))
+        .catch(err=>{
+            console.log(err);
+        })
+
+
+
+
+
+
             if (user) {
-              history.push("/dashboard")
+              history.push(location?.state?.from?.pathname||"/dashboard")
             }
         })
         .catch(err=>{
@@ -82,6 +146,14 @@ const LogIn = () => {
                 console.log(err);
         }
         )
+        .finally(()=>{
+          setIsLoading(false)
+        })
+        
+        
+
+
+
       }
 
 
@@ -99,6 +171,8 @@ const LogIn = () => {
 
 
       const logIn = async ()=>{
+        
+        
 
         const getUserAllInfo = await logInUser(email, values.password);
         console.log(getUserAllInfo);
@@ -113,7 +187,7 @@ const LogIn = () => {
           setNewUser(user);
           
           if (user) {
-            history.push("/dashboard")
+            history.push(location?.state?.from?.pathname||"/dashboard")
           }
      
           
@@ -126,8 +200,58 @@ const LogIn = () => {
               setErrorMsg(error);
           console.log(err);
       })
+      .finally(()=>{
+        setIsLoading(false)
+      })
+      
+     
+
+
+
 
       }
+
+
+
+
+
+
+      useEffect(()=>{
+            
+       
+
+        onAuthStateChanged(auth, user=>{
+        
+          console.log("isloading", isLoading);
+           
+            if (user) {
+
+                setNewUser(user);
+                console.log(user);
+             
+                console.log("isloading", isLoading);
+                
+
+            }
+            else{
+                setNewUser(" ");
+                console.log("User Log Out");
+            }
+          
+
+
+
+        })
+
+        
+      
+
+
+        setIsLoading(false)
+
+
+
+    },[newUser])
 
 
 

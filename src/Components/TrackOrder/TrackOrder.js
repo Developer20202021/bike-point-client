@@ -39,7 +39,7 @@ const TrackOrder = () => {
 
 
     const getProductStatus = ()=>{
-        fetch(`http://localhost:5000/public/tract-order/${productId}`)
+        fetch(`https://immense-fjord-66300.herokuapp.com/public/tract-order/${productId}`)
         .then(res=>res.json())
         .then(data=>{
 

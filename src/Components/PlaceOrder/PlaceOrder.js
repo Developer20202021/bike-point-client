@@ -1,10 +1,14 @@
 import { Button, Grid, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import './PlaceOrder.css'
+import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
 
 const PlaceOrder = () => {
+    
+const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase();
+const history = useHistory();
 
     const {id} = useParams();
     const [getProductInfo, setProductInfo] = useState({});
@@ -16,7 +20,7 @@ const PlaceOrder = () => {
 
     useEffect(()=>{
 
-        fetch(`http://localhost:5000/public/product/${id}`).then(res=>res.json())
+        fetch(`https://immense-fjord-66300.herokuapp.com/public/product/${id}`).then(res=>res.json())
         .then(data=>{
             setProductInfo(data[0])
             setProductPrice(data[0]?.productPrice)
@@ -36,7 +40,7 @@ const PlaceOrder = () => {
 
 const [productNumber, setProductNumber] = useState(1);
 
-const [clientInfo, setClientInfo] = useState({});
+const [clientInfo, setClientInfo] = useState({fullname:newUser?.displayName, email:newUser?.email, phoneNumber:'', address:''});
 
     const ProductCount = (e)=>{
 
@@ -45,6 +49,17 @@ const [clientInfo, setClientInfo] = useState({});
             setProductNumber(ProductValue);
             setProductPrice(ProductValue*parseInt(getProductPrice))
     }
+
+
+
+
+    useEffect(()=>{
+
+        setClientInfo({fullname:newUser?.displayName, email:newUser?.email, phoneNumber:'', address:''})
+        console.log(newUser);
+
+
+    },[newUser])
 
 
     // console.log(getProductPrice);
@@ -78,15 +93,30 @@ const [clientInfo, setClientInfo] = useState({});
         console.log(clientInfo);
 
 
-        fetch('http://localhost:5000/public/placeorder',{
+        fetch('https://immense-fjord-66300.herokuapp.com/public/placeorder',{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
             body:JSON.stringify(clientInfo)
         })
-        .then(res=>res.json())
-        .then(data=>console.log(data))
+        .then(res=>{
+            if (res.status===200) {
+                history.push('/dashboard/my-orders')
+            }
+            if (res.status===400) {
+                
+            }
+            if (res.status===500) {
+                
+            }
+           return res.json()
+        })
+        .then(data=>{
+
+            console.log(data)
+            
+        })
         .catch(err=>{
             console.log(err);
         })
@@ -155,6 +185,7 @@ const [clientInfo, setClientInfo] = useState({});
                       <TextField
                       onChange={getClientinfo}
                       name='fullname'
+                      value={clientInfo?.fullname}
                       style={{
                           width:'70%'
                       }}  id="standard-basic" variant="outlined"label="Full Name" />
@@ -164,6 +195,7 @@ const [clientInfo, setClientInfo] = useState({});
                       <TextField 
                       name='email'
                        onChange={getClientinfo}
+                       value={clientInfo?.email}
                       style={{
                           width:'70%'
                       }}  id="standard-basic" variant="outlined"label="Email" />
@@ -174,6 +206,7 @@ const [clientInfo, setClientInfo] = useState({});
                       <TextField
                        onChange={getClientinfo}
                        name='phoneNumber'
+                       value={clientInfo?.phoneNumber}
                        style={{
                           width:'70%'
                       }} id="standard-basic" variant="outlined" label="Phone Number"/>
@@ -206,6 +239,7 @@ const [clientInfo, setClientInfo] = useState({});
                       <Grid item xs={12} md={4}>
                       <TextField
                         onChange={getClientinfo}
+                        value={clientInfo?.address}
                       name ='address'
                       multiline
                       style={{

@@ -22,7 +22,7 @@ const DashboardFrontPage = () => {
     useEffect(()=>{
 
 
-        fetch('http://localhost:5000/admin/products')
+        fetch('https://immense-fjord-66300.herokuapp.com/admin/products')
         .then(res=>res.json())
         .then(data=>{
             data?.data?.map(product=>{
@@ -39,7 +39,7 @@ const DashboardFrontPage = () => {
         })
 
 
-        fetch('http://localhost:5000/admin/all-orders')
+        fetch('https://immense-fjord-66300.herokuapp.com/admin/all-orders')
         .then(res=>res.json())
         .then(data=>{
             data?.map(product=> setsales(product?.productPrice + productPrice))
@@ -52,7 +52,7 @@ const DashboardFrontPage = () => {
             console.log(err);
         })
 
-        fetch('http://localhost:5000/admin/all-users')
+        fetch('https://immense-fjord-66300.herokuapp.com/admin/all-users')
         .then(res=>res.json())
         .then(data=>{
             console.log(data?.count);
@@ -67,7 +67,7 @@ const DashboardFrontPage = () => {
             console.log(err);
         })
 
-        fetch('http://localhost:5000/admin/month/all-orders/?allMonth=Jan-Feb-Mar-Apr-May-June-July-Aug-Sept-Oct-Nov-Dec')
+        fetch('https://immense-fjord-66300.herokuapp.com/admin/month/all-orders/?allMonth=Jan-Feb-Mar-Apr-May-June-July-Aug-Sept-Oct-Nov-Dec')
         .then(res=>res.json())
         .then(data=>{
             setChartData(data.orderHistory)

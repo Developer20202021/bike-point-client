@@ -29,15 +29,43 @@ const [clientProductInfo, setClientProductInfo] = React.useState([]);
   const handleClose = () => setOpen(false);
 
   const [deleteData, setDeleteData] = React.useState('');
-
+  const [getIndex, setIndex] = React.useState(0);
 
   React.useEffect(()=>{
 
-    fetch("http://localhost:5000/admin/all-orders")
+    fetch("https://immense-fjord-66300.herokuapp.com/admin/all-orders")
     .then(res=>res.json())
     .then(data=>{
-      setClientProductInfo(data)
-      console.log(data)
+      console.log(data);
+      let i=0;
+      let array = [];
+      data?.map(order=>{
+
+        order.id = i + 1;
+        console.log(order);
+        i++;
+        setIndex(i) ;
+        array.push(order);
+        setClientProductInfo([...array]);
+
+
+      })
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    }).catch(err=>{
+      console.log(err);
     })
 
   },[deleteData])
@@ -131,7 +159,7 @@ const [clientProductInfo, setClientProductInfo] = React.useState([]);
       // console.log(params);
       const approveItem = (id)=>{
         // setProductId(id)
-        fetch(`http://localhost:5000/admin/cancel-order/${id}`,{
+        fetch(`https://immense-fjord-66300.herokuapp.com/admin/cancel-order/${id}`,{
           method:"PUT",
           headers:{
             "Content-Type":"application/json"
@@ -167,7 +195,7 @@ const [clientProductInfo, setClientProductInfo] = React.useState([]);
       // console.log(params);
       const shippedItem = (id)=>{
         // setProductId(id)
-        fetch(`http://localhost:5000/admin/cancel-order/${id}`,{
+        fetch(`https://immense-fjord-66300.herokuapp.com/admin/cancel-order/${id}`,{
           method:"PUT",
           headers:{
             "Content-Type":"application/json"
@@ -204,7 +232,7 @@ const [clientProductInfo, setClientProductInfo] = React.useState([]);
       // console.log(params);
       const cancelItem = (id)=>{
         // setProductId(id)
-        fetch(`http://localhost:5000/admin/cancel-order/${id}`,{
+        fetch(`https://immense-fjord-66300.herokuapp.com/admin/cancel-order/${id}`,{
           method:"PUT",
           headers:{
             "Content-Type":"application/json"
@@ -285,7 +313,7 @@ const [clientProductInfo, setClientProductInfo] = React.useState([]);
   const deleteClientProduct = ()=>{
     console.log(productId,inputValueAdd);
 
-    fetch(`http://localhost:5000/admin/delete-order/${productId}`,{
+    fetch(`https://immense-fjord-66300.herokuapp.com/admin/delete-order/${productId}`,{
       method:"DELETE"
     })
     .then(res=>res.json())

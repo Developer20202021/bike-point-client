@@ -13,6 +13,8 @@ const Firebase = ()=>{
     console.log(history);
     
 
+    const [isLoading, setIsLoading] = useState(true)
+
     const [newUser, setNewUser] = useState();
 
     const [errorMsg , setErrorMsg] = useState('');
@@ -102,6 +104,7 @@ const Firebase = ()=>{
 
  // Log out a user 
  const logOut = ()=>{
+    
     signOut(auth)
     .then(()=>{
        
@@ -115,20 +118,28 @@ const Firebase = ()=>{
                     setErrorMsg(error);
         console.log(err);
     })
+    .finally(()=>{
+        setIsLoading(false)
+    })
+    
+    
 
 
 }
 
 
         useEffect(()=>{
+          
 
+       
             onAuthStateChanged(auth, user=>{
-
-
+  
+               
                 if (user) {
 
                     setNewUser(user);
                     console.log(user);
+               
                     
 
                 }
@@ -136,13 +147,18 @@ const Firebase = ()=>{
                     setNewUser(" ");
                     console.log("User Log Out");
                 }
+              
+                setIsLoading(false)
 
 
 
             })
 
+            
+          
 
 
+            
 
 
 
@@ -160,6 +176,8 @@ const Firebase = ()=>{
             gitHubSingIn,
             googleSingIn,
             logInUser,
+            setIsLoading,
+            isLoading
 
         }
 

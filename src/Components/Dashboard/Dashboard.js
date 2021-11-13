@@ -43,8 +43,13 @@ import { Grid } from '@mui/material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import HomeIcon from '@mui/icons-material/Home';
 import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
 import { getAuth, createUserWithEmailAndPassword , signInWithEmailAndPassword,onAuthStateChanged, signOut, GoogleAuthProvider,signInWithPopup,GithubAuthProvider, updateProfile } from "firebase/auth";
+import Products from '../Products/Products';
+import Payment from '@mui/icons-material/Payment';
+import PaymentSystem from '../Payment/Payment';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const drawerWidth = 240;
 
@@ -131,7 +136,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
  function Dashboard() {
 
   
-const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase();
+const {newUser,setIsLoading,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase();
 
 
 
@@ -183,7 +188,7 @@ const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase()
   React.useEffect(()=>{
 
 
-    fetch(`http://localhost:5000/public/users?email=${newUser?.email}`)
+    fetch(`https://immense-fjord-66300.herokuapp.com/public/users?email=${newUser?.email}`)
     .then(res=>res.json())
     .then(data=>{
       setUser(data[0])
@@ -218,6 +223,9 @@ const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase()
         const error = err.message;
                     setErrorMsg(error);
         console.log(err);
+    })
+    .finally(()=>{
+      setIsLoading(false)
     })
 
 
@@ -314,7 +322,7 @@ const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase()
             }}></FiberManualRecordIcon></span>
           </div>
           <div className="user-name">
-            <h2>{newUser?.displayName}</h2>
+            <h2>{newUser?.displayName?.slice(0,15)+"..."}</h2>
           </div>
         
           
@@ -388,6 +396,18 @@ const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase()
               <ListItemText style={{
         color:'white'
       }} primary='Add Reviews' />
+            </ListItem>
+
+
+            <ListItem onClick={()=>history.push('/')} button>
+              <ListItemIcon>
+              <HomeIcon style={{
+        color:'white'
+      }}/>
+              </ListItemIcon>
+              <ListItemText style={{
+        color:'white'
+      }} primary='Home' />
             </ListItem>
 
 
@@ -524,73 +544,82 @@ const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase()
 
           
 
-            <Route path={`${path}/add-reviews`}>
+            <PrivateRoute path={`${path}/add-reviews`}>
               <AddReview></AddReview>
             
-            </Route>
+            </PrivateRoute>
+
+           
 
 
-            <Route path={`${path}/add-products`} >
+            <PrivateRoute path={`${path}/add-products`} >
               <AddProduct></AddProduct>
 
-            </Route>
+            </PrivateRoute>
 
 
 
-            <Route path={`${path}/add-new-admin`}>
+            <PrivateRoute path={`${path}/add-new-admin`}>
               <AddAdmin></AddAdmin>
 
-            </Route>
+            </PrivateRoute>
 
             
-            <Route path={`${path}/my-orders`}>
+            <PrivateRoute path={`${path}/my-orders`}>
                 <YourProducts></YourProducts>
 
-            </Route>
+            </PrivateRoute>
             
 
 
-            <Route path={`${path}/manage-orders`}>
+            <PrivateRoute path={`${path}/manage-orders`}>
               <ManageOrders></ManageOrders>
 
-            </Route>
+            </PrivateRoute>
 
 
 
-            <Route path={`${path}/track-your-orders`}>
+            <PrivateRoute path={`${path}/track-your-orders`}>
               <TrackOrder></TrackOrder>
-            </Route >
+            </PrivateRoute >
 
-            <Route path={`${path}/all-products`}>
+            <PrivateRoute path={`${path}/all-products`}>
               <AllProducts></AllProducts>
 
-            </Route >
+            </PrivateRoute >
 
 
-            <Route path={`${path}/pay-now`}>
+            <PrivateRoute path={`${path}/pay-now`}>
 
-            </Route>
-            <Route path={`${path}/placeorder/:id`}>
+            <PaymentSystem></PaymentSystem>
+
+            </PrivateRoute>
+            <PrivateRoute path={`${path}/placeorder/:id`}>
               <PlaceOrder></PlaceOrder>
 
-            </Route>
+            </PrivateRoute>
 
 
-            <Route path={`${path}/admins-list`}>
+            <PrivateRoute path={`${path}/admins-list`}>
+            {/* <Route > */}
               <AdminList></AdminList>
            
-            </Route>
+            {/* </Route> */}
+            </PrivateRoute>
 
 
-            <Route path={`${path}/your-account`}>
+            <PrivateRoute path={`${path}/your-account`}>
                 
-            </Route>
+            </PrivateRoute>
 
-            <Route exact path='/dashboard'>
-              <DashboardFrontPage></DashboardFrontPage>
+            <PrivateRoute exact path='/dashboard'>
+
+              {newUser?.email && user?.role==="admin"?<DashboardFrontPage></DashboardFrontPage>: <YourProducts></YourProducts>}
+              
+              
 
 
-            </Route>
+            </PrivateRoute>
 
 
 

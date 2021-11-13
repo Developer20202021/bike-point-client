@@ -31,19 +31,45 @@ export default function AdminList() {
   const [admin, setAdmin] = React.useState([]);
   const [deleteitem, setdeleteItem] = React.useState([]);
 
+  const [getIndex, setIndex] = React.useState(0);
+
 
 
 
 React.useEffect(()=>{
 
-  fetch("http://localhost:5000/admin/get-all-admin")
+  fetch("https://immense-fjord-66300.herokuapp.com/admin/get-all-admin")
             .then(res=>res.json())
             .then(data=>{
-              setAdmin(data)
-                console.log(data);
+              let i=0;
+              let array = [];
+
+              data?.map(sAdmin =>{
+
+                sAdmin.id = i + 1;
+                console.log(sAdmin);
+                i++;
+                console.log(getIndex);
+                setIndex(i) ;
+                array.push(sAdmin)
+                setAdmin([...array]);
+                
+
+
+
+
+              })
+
+
+
+
+              // setAdmin(data)
+              //   console.log(data);
             }).catch(err=>{
                 console.log(err);
             })
+
+            console.log(admin);
 
 
 
@@ -52,7 +78,7 @@ React.useEffect(()=>{
 
 const deleteAdmin= ()=>{
 
-  fetch(`http://localhost:5000/admin/admin-delete/${productId}`,{
+  fetch(`https://immense-fjord-66300.herokuapp.com/admin/admin-delete/${productId}`,{
     method:"DELETE"
   })
             .then(res=>res.json())

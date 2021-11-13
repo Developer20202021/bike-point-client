@@ -100,7 +100,7 @@ const Register = () => {
               
           }
 
-          fetch('http://localhost:5000/public/new-user',{
+          fetch('https://immense-fjord-66300.herokuapp.com/public/new-user',{
               method:"POST",
               headers:{
                   "Content-Type":"application/json"

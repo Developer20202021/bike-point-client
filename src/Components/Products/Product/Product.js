@@ -49,7 +49,7 @@ const Product = (props) => {
                 </div>
 
                 <div className="product-description">
-                    <p>{productDescription.slice(0,60)}</p>
+                    <p>{productDescription.slice(0,50)}</p>
                 </div>
 
                 <div className="product-ratting"> <Typography component="legend">Rating</Typography>

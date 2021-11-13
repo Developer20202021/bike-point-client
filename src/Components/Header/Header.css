@@ -1,8 +1,12 @@
 .header-box{
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    /* margin: 20px; */
+    margin-left: 20px;
+    margin-right: 20px;
     align-items: center;
+    height: 100px;
+   
 }
 
 .header-container{
@@ -10,7 +14,7 @@
     /* margin-top: -22px; */
     
  
-     padding: 15px;
+     /* padding: 15px; */
     
 }
 
@@ -25,5 +29,19 @@
 
 .logo-h-container img{
     border-radius: 50%;
+
+}
+
+.userImage{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.userImage-container{
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    flex-direction: row;
 
 }

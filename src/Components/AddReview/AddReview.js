@@ -62,7 +62,7 @@ const AddReview = () => {
           
 
 
-            fetch('http://localhost:5000/public/reviews',{
+            fetch('https://immense-fjord-66300.herokuapp.com/public/reviews',{
               method:"POST",
     
             headers:{

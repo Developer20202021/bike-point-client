@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import './YourProducts.css';
 import { Alert, AlertTitle, Button, Modal, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-
+import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -21,10 +21,11 @@ const style = {
 
 
 export default function YourProducts() {
+  const {newUser} = UseAuthFirebase();
 
 const [yourOrderInfo, setYourOrderInfo] = React.useState([]);
 const [deleteData, setDeleteData] = React.useState('');
-
+const [getIndex, setIndex] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const [productId , setProductId] = React.useState(0)
   const handleOpen = () => setOpen(true);
@@ -32,17 +33,33 @@ const [deleteData, setDeleteData] = React.useState('');
 
 
 
-const email = 'mahadikaushik8888@gmail.com'
+const email = newUser?.email;
 
 
 
   React.useEffect(()=>{
 
-    fetch(`http://localhost:5000/public/my-order/?email=${email}`)
+    fetch(`https://immense-fjord-66300.herokuapp.com/public/my-order/?email=${email}`)
     .then(res=>res.json())
     .then(data=>{
-      setYourOrderInfo(data)
-      console.log(data)
+
+
+      console.log(data);
+      let i=0;
+      let array = [];
+      data?.map(order=>{
+
+        order.id = i + 1;
+        console.log(order);
+        i++;
+        setIndex(i) ;
+        array.push(order);
+        
+      setYourOrderInfo([...array]);})
+      
+
+
+
     })
     .catch(err=>{
       console.log(err);
@@ -143,7 +160,7 @@ const email = 'mahadikaushik8888@gmail.com'
     renderCell: (params)=>{
       const cancelItem = (id)=>{
         // setProductId(id)
-        fetch(`http://localhost:5000/public/cancel-order/?id=${id}&email=${email}`,{
+        fetch(`https://immense-fjord-66300.herokuapp.com/public/cancel-order/?id=${id}&email=${email}`,{
           method:"PUT",
           headers:{
             "Content-Type":"application/json"
@@ -227,7 +244,7 @@ const email = 'mahadikaushik8888@gmail.com'
   const deleteClientProduct = ()=>{
     console.log(productId,inputValueAdd);
 
-    fetch(`http://localhost:5000/public/delete-order/?id=${productId}&email=${email}`,{
+    fetch(`https://immense-fjord-66300.herokuapp.com/public/delete-order/?id=${productId}&email=${email}`,{
       method:"DELETE"
     })
     .then(res=>res.json())

@@ -60,7 +60,7 @@ const AddProduct = () => {
               
    
 
-                fetch('http://localhost:5000/public/product',{
+                fetch('https://immense-fjord-66300.herokuapp.com/public/product',{
                   method:"POST",
         
                 headers:{

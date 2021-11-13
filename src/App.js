@@ -9,6 +9,7 @@ import Register from './Components/Register/Register';
 import Products from './Components/Products/Products';
 import Footer from './Components/Footer/Footer';
 import FirebaseAuthContext from './Components/CustomHook/FirebaseAuthContext';
+import PrivateRoute from './Components/PrivateRoute/PrivateRoute';
 
 function App() {
   return (
@@ -26,10 +27,10 @@ function App() {
 
       </Route>
 
-      <Route path='/dashboard'>
+      <PrivateRoute path='/dashboard'>
         <Dashboard></Dashboard>
 
-      </Route>
+      </PrivateRoute>
       <Route exact path='/login'> 
       <LogIn></LogIn>
 

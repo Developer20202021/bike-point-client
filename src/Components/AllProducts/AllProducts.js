@@ -31,15 +31,37 @@ export default function AllProducts() {
   const handleClose = () => setOpen(false);
 
   const [getproductInfo , setProductInfo] = React.useState([]);
-
+  const [getIndex, setIndex] = React.useState(0);
 
   React.useEffect(()=>{
 
 
-    fetch('http://localhost:5000/admin/products').then(res=> res.json())
+    fetch('https://immense-fjord-66300.herokuapp.com/admin/products').then(res=> res.json())
       .then(data=>{
-        setProductInfo(data.data)
-        console.log(data.data)
+        console.log(data);
+        let i=0;
+        let array = [];
+
+        data?.data?.map(product =>{
+
+          product.id = i + 1;
+          console.log(product);
+          i++;
+        
+          setIndex(i) ;
+          array.push(product)
+          setProductInfo([...array]);
+          
+
+
+
+
+        })
+
+
+
+        // setProductInfo(data.data)
+        // console.log(data.data)
       })
       .catch(err=>{
         console.log(err);
@@ -147,7 +169,7 @@ export default function AllProducts() {
   const deleteClientProduct = ()=>{
     console.log(productId,inputValueAdd);
 
-    fetch(`http://localhost:5000/admin/product-delete/${productId}`,{
+    fetch(`https://immense-fjord-66300.herokuapp.com/admin/product-delete/${productId}`,{
       method:"DELETE"
     })
     .then(res=>res.json())
@@ -181,7 +203,7 @@ export default function AllProducts() {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={10}
+        pageSize={20}
         rowsPerPageOptions={[20]}
        
       />

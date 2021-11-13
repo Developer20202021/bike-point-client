@@ -29,7 +29,7 @@ const Home = () => {
 
     useEffect(()=>{
 
-        fetch('http://localhost:5000/public/home/product')
+        fetch('https://immense-fjord-66300.herokuapp.com/public/home/product')
         .then(res=>res.json())
         .then(data=>{
             setProducts(data)
@@ -39,7 +39,7 @@ const Home = () => {
             console.log(err);
         })
 
-        fetch('http://localhost:5000/public/reviews')
+        fetch('https://immense-fjord-66300.herokuapp.com/public/reviews')
         .then(res=>res.json())
         .then(data=>{
             setReviewers(data);
@@ -61,7 +61,7 @@ const Home = () => {
                  }
     const subscribe = ()=>{
 
-        fetch('http://localhost:5000/public/subscriber',{
+        fetch('https://immense-fjord-66300.herokuapp.com/public/subscriber',{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"

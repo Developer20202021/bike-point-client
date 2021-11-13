@@ -20,7 +20,7 @@ const AddAdmin = () => {
     const addNewAdmin = ()=>{
         
 
-            fetch(`http://localhost:5000/admin/add-new-admin?oldAdminEmail=${newUser?.email}&&newAdminEmail=${getAdminEmail}`,{
+            fetch(`https://immense-fjord-66300.herokuapp.com/admin/add-new-admin?oldAdminEmail=${newUser?.email}&&newAdminEmail=${getAdminEmail}`,{
                 method:"PUT",
                 headers:{
                     "Content-Type":"application/json"
