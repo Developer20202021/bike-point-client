@@ -48,31 +48,6 @@ const Products = () => {
 
           {products.length>0?products.map(product=><Product value={product}></Product>):null}
             
-{/*             
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product>
-            <Product></Product> */}
-
-
-
 
             </div>
 

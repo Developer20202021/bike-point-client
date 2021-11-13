@@ -173,32 +173,37 @@ const Register = () => {
             <h2 className='register-heading'>Create an Account</h2>
             <p className='already'>Already have an account? <NavLink to='/login'>Login</NavLink> </p>
             </Grid>
-
+            
         <Grid item xs={12} md={12}>
+        <FormControl variant="outlined">
       <TextField
       onChange={getUserInfo} 
       name='userName'
       style={{
-          width:'420px',
+          width:'100%',
       }} id="outlined-basic" label="Username"
       placeholder='Username'
       variant="outlined" />
+        </FormControl>
          </Grid>
          <Grid item xs={12} md={12}>
+         <FormControl variant="outlined">
       <TextField
       name='email'
       onChange={getUserInfo}
      style={{
-        width:'420px',
+        width:'100%',
     }} id="outlined-basic" label="Email"
       placeholder='Email'
       variant="outlined" />
+      </FormControl>
         </Grid>
+       
          <Grid item xs={12} md={12}>
          <FormControl variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput  style={{
-          width:'420px',
+          width:'100%',
       }}
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
@@ -225,7 +230,7 @@ const Register = () => {
           <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
           <OutlinedInput
           style={{
-            width:'420px',
+            width:'100%',
         }}
             id="outlined-adornment-password"
             type={confirmValues.showConfirmPassword ? 'text' : 'password'}

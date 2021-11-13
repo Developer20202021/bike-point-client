@@ -40,10 +40,21 @@
         border-radius: 15px;
     
     }  
+    .phone-user-logout-d{
+        display: none;
+    }
+
+    .phone-user-name{
+        display: none;
+    }
+
 }
 @media only screen and (max-width:700px) {
     .user-logout-d{
         display: none;
+    }
+    .phone-user-logout-d{
+        margin-right: 20px;
     }
 }
 
@@ -68,6 +79,12 @@
         border-radius: 15px;
     
     }  
+    .phone-user-logout-d{
+        display: none;
+    }
+    .phone-user-name{
+        display: none;
+    }
 }
 
 

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.css';
 import {NavLink, useHistory} from "react-router-dom";
 import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
 import { getAuth, createUserWithEmailAndPassword , signInWithEmailAndPassword,onAuthStateChanged, signOut, GoogleAuthProvider,signInWithPopup,GithubAuthProvider, updateProfile } from "firebase/auth";
 import { Button } from '@mui/material';
-
+import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 
 
 
@@ -40,6 +40,17 @@ const Header = () => {
     }
 
 
+    const [toggling, setToggling] = useState(false);
+
+
+    const toggle = ()=>{
+
+        setToggling(!toggling);
+
+
+    }
+
+
 
 
 
@@ -54,7 +65,47 @@ const Header = () => {
 
                     <div className="logo-h-container">
                         <img src="https://i.ibb.co/j6Zhf0t/bike-point-logo-1.gif" alt="" width="60px" height="60px"/>
+                        {toggling? <div className="phone-link-container">
+                    <div className='phone-userImage-container'>
+                        <NavLink to='/'>Home</NavLink>
+                        <NavLink to='/products'>Products</NavLink>
+                        <NavLink to='/'>Contact Us</NavLink>
+                        {newUser?.email? null:<NavLink to='/login'>Log In</NavLink>}
+                        {newUser?.email? null:<NavLink to='/register'>Register</NavLink>}
+                        {newUser?.email? <NavLink to='/dashboard'>Dashboard</NavLink>:null}
+                        {newUser?.email && newUser?.displayName? <NavLink to='/dashboard'>{newUser?.displayName}</NavLink>:null}
+                       
+                        {newUser?.email && newUser?.photoURL? <img src={newUser?.photoURL} className='userImage' alt="" srcset="" />:null}
+
+                          {newUser?.email?<Button onClick={logOut} variant="contained" style={{
+                             backgroundColor:"#3BB77E",
+                             marginLeft:'20px'
+                        }}>Log Out</Button>:null}
+                        </div>
+                        
+                       
+
+                    </div>:null}
                     </div>
+
+
+                 
+
+
+            
+
+                   
+
+
+
+
+
+
+
+
+
+
+
 
 
                     <div className="all-link-container">
@@ -82,7 +133,9 @@ const Header = () => {
 
 
 
-
+                    <div onClick={toggle} className="barcontainer">
+                        <FormatAlignJustifyIcon/>
+                    </div>
 
                 </div>
             </div>

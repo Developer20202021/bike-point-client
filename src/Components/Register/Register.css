@@ -1,16 +1,48 @@
-.registerPageContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* margin: 50px; */
+
+
+
+
+
+
+@media screen and (max-width:800px) {
+    .registerPageContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* margin: 50px; */
+    }
+    
+    
+    .register-heading{
+        font-size: 30px;
+    }
+    
+     .already a{
+      color: #3BB77E;
+    }
 }
 
 
-.register-heading{
-    font-size: 30px;
-}
 
- .already a{
-  color: #3BB77E;
+
+
+
+@media screen and (min-width:800px) {
+    .registerPageContainer{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* margin: 50px; */
+    }
+    
+    
+    .register-heading{
+        font-size: 30px;
+    }
+    
+     .already a{
+      color: #3BB77E;
+    }
 }

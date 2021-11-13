@@ -53,3 +53,10 @@
 .log-in-box{
     margin-bottom: 130px;
 }
+
+
+@media screen and (max-width:800px) {
+    .login-aside-image{
+        display: none;
+    }
+}

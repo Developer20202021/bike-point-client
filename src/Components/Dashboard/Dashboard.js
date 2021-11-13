@@ -310,6 +310,20 @@ const {newUser,setIsLoading,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseA
         className ='userImage' src={newUser?.photoURL} alt="" width="50px" height='50px'/>:<img
         onClick={toogling}
         className ='userImage' src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" width="50px" height='50px'/>} </div>
+          <div className="phone-user-name">
+            <p>{newUser?.displayName?.slice(0,10)+"..."}</p>
+          </div>
+        <div className="phone-user-logout-d"> 
+
+        {newUser?.photoURL?<img
+       
+        className ='userImage' src={newUser?.photoURL} alt="" width="40px" height='40px'/>:<img
+       
+        className ='userImage' src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="" width="40px" height='40px'/>} </div>
+        
+
+
+
         {toogle? <div className="toogleitem">
           <div className="image-user">
           {newUser?.photoURL?<img

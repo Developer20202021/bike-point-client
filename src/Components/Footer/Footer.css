@@ -1,69 +1,163 @@
-.footer-account-ul li{
-    list-style: none;
-    margin-bottom: 10px;
+
+@media screen and (max-width:800px) {
+    
+
+    .footer-account-ul li{
+        list-style: none;
+        margin-bottom: 10px;
+    
+    }
+    
+    .footer-account-ul li a{
+        text-decoration: none;
+        color: black;
+        font-weight: 600;
+        color: white;
+    
+    
+    }
+    
+    .footer-account-ul li a:hover {
+        color: #3BB77E;
+        margin-left: 5px;
+        font-weight: 700;
+    
+    }
+    
+    
+    .address-f .icon{
+        color: #3BB77E;
+        margin-right: 10px;
+    
+    }
+    
+    .address-f {
+        display: flex;
+        justify-content: flex-start;
+       margin-bottom: 20px;
+       
+    }
+    
+    .address-f .address-title{
+        font-weight: 700;
+        font-size: 18px;
+        margin-right: 10px;
+        color: white;
+    }
+    
+    .address-f-des{
+        color: white;
+        font-size: 16px;
+    }
+    .footer-containainer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* margin: 50px; */
+        flex-direction: column;
+    
+    }
+    
+    .install-app-payment{
+       margin-top: -50px;
+       color: white;
+    }
+    
+    .footer-box{
+        padding: 30px;
+        background-color: #5867DD;
+       
+    }
+    
+    .footer-box h3{
+        color: white;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
-.footer-account-ul li a{
-    text-decoration: none;
-    color: black;
-    font-weight: 600;
-    color: white;
-
-
-}
-
-.footer-account-ul li a:hover {
-    color: #3BB77E;
-    margin-left: 5px;
-    font-weight: 700;
-
-}
-
-
-.address-f .icon{
-    color: #3BB77E;
-    margin-right: 10px;
-
-}
-
-.address-f {
-    display: flex;
-    justify-content: flex-start;
-   margin-bottom: 20px;
-   
-}
-
-.address-f .address-title{
-    font-weight: 700;
-    font-size: 18px;
-    margin-right: 10px;
-    color: white;
-}
-
-.address-f-des{
-    color: white;
-    font-size: 16px;
-}
-.footer-containainer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 50px;
-
-}
-
-.install-app-payment{
-   margin-top: -50px;
-   color: white;
-}
-
-.footer-box{
-    padding: 30px;
-    background-color: #5867DD;
-   
-}
-
-.footer-box h3{
-    color: white;
+@media screen and (min-width:800px) {
+    .footer-account-ul li{
+        list-style: none;
+        margin-bottom: 10px;
+    
+    }
+    
+    .footer-account-ul li a{
+        text-decoration: none;
+        color: black;
+        font-weight: 600;
+        color: white;
+    
+    
+    }
+    
+    .footer-account-ul li a:hover {
+        color: #3BB77E;
+        margin-left: 5px;
+        font-weight: 700;
+    
+    }
+    
+    
+    .address-f .icon{
+        color: #3BB77E;
+        margin-right: 10px;
+    
+    }
+    
+    .address-f {
+        display: flex;
+        justify-content: flex-start;
+       margin-bottom: 20px;
+       
+    }
+    
+    .address-f .address-title{
+        font-weight: 700;
+        font-size: 18px;
+        margin-right: 10px;
+        color: white;
+    }
+    
+    .address-f-des{
+        color: white;
+        font-size: 16px;
+    }
+    .footer-containainer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 50px;
+    
+    }
+    
+    .install-app-payment{
+       margin-top: -50px;
+       color: white;
+    }
+    
+    .footer-box{
+        padding: 30px;
+        background-color: #5867DD;
+       
+    }
+    
+    .footer-box h3{
+        color: white;
+    }
 }
