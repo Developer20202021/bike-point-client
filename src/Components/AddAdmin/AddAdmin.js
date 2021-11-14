@@ -1,9 +1,11 @@
 import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 import UseAuthFirebase from '../CustomHook/UseAuthFirebase';
 import './AddAdmin.css';
 
 const AddAdmin = () => {
+    const history = useHistory();
 
     const {newUser,logInUser,setNewUser,setErrorMsg, errorMsg, } = UseAuthFirebase();
     const [getAdminEmail, setAdminEmail] = useState('');
@@ -18,8 +20,9 @@ const AddAdmin = () => {
 
 
     const addNewAdmin = ()=>{
+        console.log(newUser?.email,getAdminEmail);
         
-
+        // https://immense-fjord-66300.herokuapp.com/
             fetch(`https://immense-fjord-66300.herokuapp.com/admin/add-new-admin?oldAdminEmail=${newUser?.email}&&newAdminEmail=${getAdminEmail}`,{
                 method:"PUT",
                 headers:{
@@ -29,6 +32,9 @@ const AddAdmin = () => {
             })
             .then(res=>res.json())
             .then(data=>{
+                if (data) {
+                    history.push("/dashboard/admins-list")
+                }
                 console.log(data);
             }).catch(err=>{
                 console.log(err);

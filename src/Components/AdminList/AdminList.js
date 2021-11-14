@@ -77,9 +77,9 @@ React.useEffect(()=>{
 
 
 const deleteAdmin= ()=>{
-
+  // https://immense-fjord-66300.herokuapp.com/
   fetch(`https://immense-fjord-66300.herokuapp.com/admin/admin-delete/${productId}`,{
-    method:"DELETE"
+    method:"PUT"
   })
             .then(res=>res.json())
             .then(data=>{
